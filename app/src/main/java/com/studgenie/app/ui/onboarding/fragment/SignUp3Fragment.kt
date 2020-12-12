@@ -26,6 +26,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.studgenie.app.data.local.userDetailsDatabase.UserDataModel
 import com.studgenie.app.data.local.userDetailsDatabase.UserViewModel
+import com.studgenie.app.data.remote.request.CreateDetailsApi
 import com.studgenie.app.util.Config
 import kotlinx.android.synthetic.main.fragment_sign_up_3.view.*
 
@@ -74,10 +75,10 @@ class SignUp3Fragment : Fragment() {
         authTokenViewModel.readAllData?.observe(viewLifecycleOwner, Observer { auth ->
             if (auth.isEmpty()) {
                 isTokenEmpty = 1
-                Log.d("Coroutine", "List is empty")
+                Log.d("CoroutineToken", "List is empty")
             } else {
                 isTokenEmpty = 0
-                Log.d("Coroutine", auth[0].id.toString() + auth[0].authToken)
+                Log.d("CoroutineToken", auth[0].id.toString() + auth[0].authToken)
                 storeAuthTokenId = auth[0].id
                 authToken = auth[0].authToken
             }
@@ -86,11 +87,11 @@ class SignUp3Fragment : Fragment() {
         userViewModel.readAllDataModel?.observe(viewLifecycleOwner, Observer { user ->
             if (user.isEmpty()) {
                 isUserEmpty = 1
-                Log.d("Coroutine1", "List is empty")
+                Log.d("CoroutineUserData", "List is empty")
             } else {
                 isUserEmpty = 0
                 storeUserId = user[0].id
-                Log.d("Coroutine1", user[0].id.toString() + user[0].number)
+                Log.d("CoroutineUserData", user[0].id.toString() + user[0].number)
             }
         })
 
@@ -118,7 +119,7 @@ class SignUp3Fragment : Fragment() {
                                 .addConverterFactory(GsonConverterFactory.create())
                                 .build()
 
-                            val createDetailsApi = retrofit.create(SignUpApi::class.java)
+                            val createDetailsApi = retrofit.create(CreateDetailsApi::class.java)
                             if (authToken != null) {
                                 val sendDetails = SendUserDetails(
                                     enterNameString,
@@ -152,7 +153,7 @@ class SignUp3Fragment : Fragment() {
 
                                             if (isUserEmpty == 1) {
                                                 userViewModel.addUserData(mUserData)
-                                                Log.d("Coroutine1", "Successfully added!")
+                                                Log.d("CoroutineUserData", "Successfully added!")
 
                                                 val i = Intent(activity, HomeActivity::class.java)
                                                 startActivity(i)
@@ -167,12 +168,12 @@ class SignUp3Fragment : Fragment() {
                                                     Observer { user ->
                                                         if (!user.isEmpty()) {
                                                             Log.d(
-                                                                "Coroutine1",
+                                                                "CoroutineUserData",
                                                                 user[0].id.toString() + user[0].number.toString() + user[0].firstName.toString() + user[0].lastName.toString() + user[0].dob.toString() + user[0].pictureUrl.toString() + user[0].accountStatus.toString() + user[0].maxDevices.toString() + user[0].userName.toString() + user[0].studentId.toString() + user[0].instituteId.toString() + user[0].email.toString()
                                                             )
 //                                                    Toast.makeText(requireContext(),user[0].id.toString() + user[0].number.toString() + user[0].firstName.toString() + user[0].lastName.toString() + user[0].dob.toString() + user[0].pictureUrl.toString() + user[0].accountStatus.toString() + user[0].maxDevices.toString() + user[0].userName.toString() + user[0].studentId.toString() + user[0].instituteId.toString() + user[0].email.toString() , Toast.LENGTH_SHORT).show()
                                                         } else {
-                                                            Log.d("Coroutine1", "User Data Not added")
+                                                            Log.d("CoroutineUserData", "User Data Not added")
                                                         }
                                                     })
                                                 activity?.finish()
@@ -183,7 +184,7 @@ class SignUp3Fragment : Fragment() {
                                                     response.body()?.get(0)?.email.toString(),
                                                     storeUserId
                                                 )
-                                                Log.d("Coroutine1", "Successfully updated!")
+                                                Log.d("CoroutineUserData", "Successfully updated!")
 
                                                 val i = Intent(activity, HomeActivity::class.java)
                                                 startActivity(i)
@@ -192,7 +193,7 @@ class SignUp3Fragment : Fragment() {
                                                     viewLifecycleOwner,
                                                     Observer { user ->
                                                         Log.d(
-                                                            "Coroutine1",
+                                                            "CoroutineUserData",
                                                             user[0].id.toString() + user[0].number.toString() + user[0].firstName.toString() + user[0].lastName.toString() + user[0].dob.toString() + user[0].pictureUrl.toString() + user[0].accountStatus.toString() + user[0].maxDevices.toString() + user[0].userName.toString() + user[0].studentId.toString() + user[0].instituteId.toString() + user[0].email.toString()
                                                         )
 //                                                Toast.makeText(requireContext(),user[0].id.toString() + user[0].number.toString() + user[0].firstName.toString() + user[0].lastName.toString() + user[0].dob.toString() + user[0].pictureUrl.toString() + user[0].accountStatus.toString() + user[0].maxDevices.toString() + user[0].userName.toString() + user[0].studentId.toString() + user[0].instituteId.toString() + user[0].email.toString() , Toast.LENGTH_SHORT).show()
@@ -221,7 +222,7 @@ class SignUp3Fragment : Fragment() {
                                     }
                                 })
                             } else {
-                                Log.d("Coroutine", "Auth token is empty")
+                                Log.d("CoroutineToken", "Auth token is empty")
                             }
                         } else {
                             toastMessage.visibility = View.VISIBLE
@@ -244,14 +245,6 @@ class SignUp3Fragment : Fragment() {
                 toastMessage.setBackgroundResource(R.color.transparent_red)
             }
         }
-//        mAuthViewModel.readAllData?.observe(viewLifecycleOwner, Observer{auth->
-//            Log.d("Coroutine",auth[0].id.toString()+auth[0].authToken)
-//        })
-
-//        mUserViewModel.readAllData?.observe(viewLifecycleOwner, Observer{user->
-//            Log.d("Coroutine1",user[0].id.toString()+user[0].number.toString()+user[0].firstName.toString()+user[0].lastName.toString()+user[0].dob.toString()+user[0].pictureUrl.toString()+user[0].accountStatus.toString()+user[0].maxDevices.toString()+user[0].userName.toString()+user[0].studentId.toString()+user[0].instituteId.toString()+user[0].email.toString())
-//
-//        })
         return rootView
     }
 

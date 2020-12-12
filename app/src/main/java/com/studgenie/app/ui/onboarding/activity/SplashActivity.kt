@@ -12,6 +12,7 @@ import com.studgenie.app.R
 import com.studgenie.app.ui.main.activity.HomeActivity
 import androidx.lifecycle.Observer
 import com.studgenie.app.data.local.userStatusDatabase.UserStatusViewModel
+import com.studgenie.app.util.SPLASH_DISPLAY_TIME
 
 //import com.studgenie.app.util.PermissionsHandler
 //import com.studgenie.app.util.PERMISSION_REQUEST_CODE
@@ -20,7 +21,7 @@ import com.studgenie.app.data.local.userStatusDatabase.UserStatusViewModel
 
 @Suppress("DEPRECATION")
 class SplashActivity : AppCompatActivity() {
-    private val SPLASH_DISPLAY_TIME = 500
+//    private val SPLASH_DISPLAY_TIME = 500
     private lateinit var statusViewModel: UserStatusViewModel
     var isStatusEmpty = 1
     val MANIFEST_PERMISSION_ALL: Array<String> = arrayOf("android.permission.READ_PHONE_NUMBERS")

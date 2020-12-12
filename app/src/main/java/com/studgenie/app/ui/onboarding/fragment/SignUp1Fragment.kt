@@ -57,10 +57,10 @@ class SignUp1Fragment : Fragment() {
         statusViewModel.readAllData?.observe(viewLifecycleOwner, Observer { status ->
             if (status.isEmpty()) {
                 isStatusEmpty = 1
-                Log.d("Coroutine2", "List is empty")
+                Log.d("CoroutineStatus", "List is empty")
             } else {
                 isStatusEmpty = 0
-                Log.d("Coroutine2", status[0].id.toString() + status[0].status)
+                Log.d("CoroutineStatus", status[0].id.toString() + status[0].status)
             }
         })
 
@@ -75,8 +75,8 @@ class SignUp1Fragment : Fragment() {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
-            val api = retrofit.create(ApiCountryService::class.java)
-            api.fetchAllCountries().enqueue(object : Callback<List<CountryItem>> {
+            val apiCountryService = retrofit.create(ApiCountryService::class.java)
+            apiCountryService.fetchAllCountries().enqueue(object : Callback<List<CountryItem>> {
                 override fun onResponse(call: Call<List<CountryItem>>, response: Response<List<CountryItem>>) {
                     if (response.isSuccessful){
                         phoneNumberLength = response.body()!![0].no_of_digits
@@ -104,10 +104,10 @@ class SignUp1Fragment : Fragment() {
                                             val status = UserStatusModel("User Entered")
                                             if (isStatusEmpty == 1) {
                                                 statusViewModel.addUserStatus(status)
-                                                Log.d("Coroutine2", "Successfully added!")
+                                                Log.d("CoroutineStatus", "Successfully added!")
                                             } else {
                                                 statusViewModel.updateUserStatus("second time", 1)
-                                                Log.d("Coroutine2", "Successfully updated!")
+                                                Log.d("CoroutineStatus", "Successfully updated!")
                                             }
 
                                             val signUp2Fragment = SignUp2Fragment()
@@ -156,36 +156,17 @@ class SignUp1Fragment : Fragment() {
             val status = UserStatusModel("User Entered")
             if (isStatusEmpty == 1) {
                 statusViewModel.addUserStatus(status)
-                Log.d("Coroutine2", "Successfully added!")
+                Log.d("CoroutineStatus", "Successfully added!")
             } else {
                 statusViewModel.updateUserStatus("second time", 1)
-                Log.d("Coroutine2", "Successfully updated!")
+                Log.d("CoroutineStatus", "Successfully updated!")
             }
 
-            val i = Intent(activity, HomeActivity::class.java)
-            startActivity(i)
+            val intent = Intent(activity, HomeActivity::class.java)
+            startActivity(intent)
             (activity as Activity?)!!.overridePendingTransition(0, 0)
             activity?.finish()
         }
         return rootView
     }
-
-//    private fun showData(countries: List<CountryItem>?) {
-//        recyclerView_spinner.apply {
-//            layoutManager = LinearLayoutManager(requireContext())
-//            adapter = CountryAdapter(countries!!)
-//        }
-//    }
-
-//    private fun createUserModelList(countries: List<CountryItem>?): ArrayList<CountryItem> {
-//        val list = ArrayList<CountryItem>()
-//
-//        list.add(CountryItem("+91", R.drawable.flag_india))
-//        list.add(CountryItem("+1", R.drawable.flag_usa))
-//        list.add(CountryItem("+55", R.drawable.flag_brazil))
-//        list.add(CountryItem("+56", R.drawable.flag_chile))
-//
-//        return list
-//    }
-
 }

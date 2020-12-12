@@ -42,27 +42,21 @@ class HomeFragment : Fragment() {
         authTokenViewModel.readAllData?.observe(viewLifecycleOwner, Observer { auth ->
             if (auth.isEmpty()) {
                 isTokenEmpty = 1
-                Log.d("CoroutineHomeFragAuth", "List is empty")
+                Log.d("CoroutineToken", "List is empty")
             } else {
                 isTokenEmpty = 0
-                Log.d("CoroutineHomeFragAuth", auth[0].id.toString() + auth[0].authToken)
-                Log.d(
-                    "CoroutineHomeFragAuthR",
-                    auth[auth.size - 1].id.toString() + auth[auth.size - 1].authToken
-                )
+                Log.d("CoroutineToken", auth[0].id.toString() + auth[0].authToken)
+//                Log.d("CoroutineToken", auth[auth.size - 1].id.toString() + auth[auth.size - 1].authToken)
             }
         })
         userViewModel.readAllDataModel?.observe(viewLifecycleOwner, Observer { user ->
             if (user.isEmpty()) {
                 isUserEmpty = 1
-                Log.d("CoroutineHomFragUserDat", "List is empty")
+                Log.d("CoroutineUserData", "List is empty")
             } else {
                 isUserEmpty = 0
-                Log.d("CoroutineHomFragUserDat", user[0].id.toString() + user[0].number)
-                Log.d(
-                    "CoroutineHomFragUserDaR",
-                    user[user.size - 1].id.toString() + user[user.size - 1].number
-                )
+                Log.d("CoroutineUserData", user[0].id.toString() + user[0].number)
+                Log.d("CoroutineUserData", user[user.size - 1].id.toString() + user[user.size - 1].number)
             }
         })
         rootView.update_details_button.setOnClickListener {
@@ -73,7 +67,7 @@ class HomeFragment : Fragment() {
         }
         rootView.button_logout.setOnClickListener {
             authTokenViewModel.deleteAuthToken()
-            Log.d("CoroutineAuth", "Successfully deleted")
+            Log.d("CoroutineToken", "Successfully deleted")
             userViewModel.deleteUserData()
             Log.d("CoroutineUserData", "Successfully deleted")
             statusViewModel.deleteUserStatus()
@@ -88,14 +82,10 @@ class HomeFragment : Fragment() {
         }
         userViewModel.readAllDataModel?.observe(viewLifecycleOwner, Observer { user ->
             if (user.isEmpty()) {
-                Log.d("HomeFragment", "User not created yet")
+                Log.d("CoroutineStatus", "User not created yet")
             } else {
-                Log.d(
-                    "CoroutineUserData",
-                    user[0].id.toString() + user[0].number.toString() + user[0].firstName.toString() + user[0].lastName.toString() + user[0].dob.toString() + user[0].pictureUrl.toString() + user[0].accountStatus.toString() + user[0].maxDevices.toString() + user[0].userName.toString() + user[0].studentId.toString() + user[0].instituteId.toString() + user[0].email.toString()
-                )
-                Toast.makeText(
-                    requireContext(),
+                Log.d("CoroutineUserData", user[0].id.toString() + user[0].number.toString() + user[0].firstName.toString() + user[0].lastName.toString() + user[0].dob.toString() + user[0].pictureUrl.toString() + user[0].accountStatus.toString() + user[0].maxDevices.toString() + user[0].userName.toString() + user[0].studentId.toString() + user[0].instituteId.toString() + user[0].email.toString())
+                Toast.makeText(requireContext(),
                     user[0].id.toString() + user[0].number.toString() + user[0].firstName.toString() + user[0].lastName.toString() + user[0].dob.toString() + user[0].pictureUrl.toString() + user[0].accountStatus.toString() + user[0].maxDevices.toString() + user[0].userName.toString() + user[0].studentId.toString() + user[0].instituteId.toString() + user[0].email.toString(),
                     Toast.LENGTH_SHORT
                 ).show()

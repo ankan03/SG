@@ -31,6 +31,7 @@ import com.studgenie.app.data.local.tokenDatabase.AuthTokenDataModel
 import com.studgenie.app.data.local.tokenDatabase.AuthTokenViewModel
 import com.studgenie.app.data.local.userDetailsDatabase.UserDataModel
 import com.studgenie.app.data.local.userDetailsDatabase.UserViewModel
+import com.studgenie.app.data.remote.request.OtpSignInApi
 import com.studgenie.app.data.remote.response.SigninApiResponse
 
 import com.studgenie.app.util.InternetConnectivity
@@ -111,11 +112,11 @@ class SignUp2Fragment : Fragment(), VerificationListener {
         authTokenViewModel.readAllData?.observe(viewLifecycleOwner, Observer{ auth->
             if (auth.isEmpty()){
                 isTokenEmpty = 1
-                Log.d("Coroutine","List is empty")
+                Log.d("CoroutineToken","List is empty")
             }else{
                 isTokenEmpty = 0
                 storeAuthTokenId = auth[0].id
-                Log.d("Coroutine",auth[0].id.toString()+auth[0].authToken)
+                Log.d("CoroutineToken",auth[0].id.toString()+auth[0].authToken)
 //                Log.d("Coroutine",auth[auth.size-1].id.toString()+auth[auth.size-1].authToken)
             }
         })
@@ -123,11 +124,11 @@ class SignUp2Fragment : Fragment(), VerificationListener {
         userViewModel.readAllDataModel?.observe(viewLifecycleOwner, Observer{ user->
             if (user.isEmpty()){
                 isUserEmpty = 1
-                Log.d("Coroutine1","List is empty")
+                Log.d("CoroutineUserData","List is empty")
             }else{
                 isUserEmpty = 0
                 storeUserId = user[0].id
-                Log.d("Coroutine1",user[0].id.toString()+user[0].number)
+                Log.d("CoroutineUserData",user[0].id.toString()+user[0].number)
             }
         })
         return rootView
@@ -162,14 +163,13 @@ class SignUp2Fragment : Fragment(), VerificationListener {
                                 )
                                 if (response.body()?.message.toString() == "User already exists") {
 
-                                    val signInApi = retrofit.create(SignUpApi::class.java)
+                                    val signInApi = retrofit.create(OtpSignInApi::class.java)
                                     val sendNumberForSignin = SendNumber(phone.toString())
                                     signInApi.userSignin(sendNumberForSignin).enqueue(object :
                                         Callback<SigninApiResponse> {
                                         override fun onResponse(call: Call<SigninApiResponse>, response: Response<SigninApiResponse>) {
                                             if (response.isSuccessful){
-                                                Log.d(
-                                                    "RetrofitSignin",
+                                                Log.d("RetrofitSignin",
                                                     "OnResponse:\n Auth Token: ${response.body()?.authToken} \n"
                                                             + "UserBody: ${
                                                         response.body()?.data?.get(0)?.number.toString()
@@ -244,7 +244,7 @@ class SignUp2Fragment : Fragment(), VerificationListener {
                                     if (isTokenEmpty == 1) {
                                         authTokenViewModel.addAuthToken(mAuthToken)
 
-                                        Log.d("CoroutineAnkan", "Successfully added!")
+                                        Log.d("CoroutineToken", "Successfully added!")
                                         val signUp3Fragment = SignUp3Fragment()
                                         val args = Bundle()
                                         args.putString("phNo", phone)
@@ -254,7 +254,7 @@ class SignUp2Fragment : Fragment(), VerificationListener {
                                             .commit()
                                     } else {
                                         authTokenViewModel.updateAuthToken(response.body()?.auth_token.toString(), storeAuthTokenId)
-                                        Log.d("Coroutine", "Successfully updated!")
+                                        Log.d("CoroutineToken", "Successfully updated!")
 
                                         val signUp3Fragment = SignUp3Fragment()
                                         val args = Bundle()
@@ -303,8 +303,8 @@ class SignUp2Fragment : Fragment(), VerificationListener {
                         override fun afterTextChanged(s: Editable) {
                         }
                     })
-                    val c: Char = message.get(0)
-                    if (c in '0'..'9'){
+                    val char: Char = message.get(0)
+                    if (char in '0'..'9'){
                         toastMessage.visibility = View.VISIBLE
                         toastMessage.text = "OTP sent successfully"
                         toastMessage.setBackgroundResource(R.color.transparent_blue)
@@ -353,10 +353,8 @@ class SignUp2Fragment : Fragment(), VerificationListener {
                         timer.cancel()
                         timer.onFinish()
                     }else {
-                        Log.d("Ankan",message)
+                        Log.d("Msg91Error",message)
                     }
-//                exception found
-//                    Toast.makeText(requireContext(),"Error : " + responseCode.getCode(),Toast.LENGTH_SHORT).show()
                 }
             }
     }

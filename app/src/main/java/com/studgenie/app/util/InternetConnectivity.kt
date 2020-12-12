@@ -15,34 +15,21 @@ object InternetConnectivity {
     const val NETWORK_TYPE_IDEN = 11 // Level 8
     const val NETWORK_TYPE_LTE = 13 // Level 11
 
-    /**
-     * Check if there is any connectivity
-     * @param context
-     * @return
-     */
+//    Check if there is any connectivity
     fun isConnected(context: Context): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val info = cm.activeNetworkInfo
         return info != null && info.isConnected
     }
 
-    /**
-     * Check if there is fast connectivity
-     * @param context
-     * @return
-     */
+//    Check if there is fast connectivity
     fun isConnectedFast(context: Context): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val info = cm.activeNetworkInfo
         return info != null && info.isConnected && isConnectionFast(info.type, info.subtype)
     }
 
-    /**
-     * Check if the connection is fast
-     * @param type
-     * @param subType
-     * @return
-     */
+//    Check if the connection is fast
     fun isConnectionFast(type: Int, subType: Int): Boolean {
         return if (type == ConnectivityManager.TYPE_WIFI) {
             println("CONNECTED VIA WIFI")

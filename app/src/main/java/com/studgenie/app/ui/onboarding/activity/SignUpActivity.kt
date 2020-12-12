@@ -18,6 +18,7 @@ import com.studgenie.app.util.PERMISSION_REQUEST_CODE
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var authTokenViewModel: AuthTokenViewModel
+
     val MANIFEST_PERMISSION_ALL: Array<String> = arrayOf(
         "android.permission.READ_PHONE_NUMBERS",
         "android.permission.READ_PHONE_NUMBERS",
